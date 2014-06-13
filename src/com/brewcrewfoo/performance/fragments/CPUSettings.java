@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,6 +58,8 @@ import java.util.List;
 
 public class CPUSettings extends Fragment
         implements SeekBar.OnSeekBarChangeListener, Constants {
+
+    private final static boolean DEBUG = false;
 
     private SeekBar mMaxSlider;
     private SeekBar mMinSlider;
@@ -151,18 +154,10 @@ public class CPUSettings extends Fragment
 
         String mCurrentGovernor = Helpers.readOneLine(GOVERNOR_PATH);
         String mCurrentIo = Helpers.getIOScheduler();
-        String mCurMaxSpeed;
-        String mCurMinSpeed;
-        if (new File(DYN_MAX_FREQ_PATH).exists()) {
-            mCurMaxSpeed = Helpers.readOneLine(DYN_MAX_FREQ_PATH);
-        } else {
-            mCurMaxSpeed = Helpers.readOneLine(MAX_FREQ_PATH);
-        }
-        if (new File(DYN_MIN_FREQ_PATH).exists()) {
-            mCurMinSpeed = Helpers.readOneLine(DYN_MIN_FREQ_PATH);
-        } else {
-            mCurMinSpeed = Helpers.readOneLine(MIN_FREQ_PATH);
-        }
+        String mCurMaxSpeed = Helpers.readOneLine(MAX_FREQ_PATH);
+        String mCurMinSpeed = Helpers.readOneLine(MIN_FREQ_PATH);
+        if (DEBUG) Log.i(TAG, "mCurMaxSpeed: " + mCurMaxSpeed);
+        if (DEBUG) Log.i(TAG, "mCurMinSpeed: " + mCurMinSpeed);
 
         if (mIsTegra3) {
             String curTegraMaxSpeed = Helpers.readOneLine(TEGRA_MAX_FREQ_PATH);
