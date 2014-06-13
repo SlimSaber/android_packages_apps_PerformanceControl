@@ -73,7 +73,6 @@ public class BootService extends Service implements Constants {
             final StringBuilder sb = new StringBuilder();
             final String FASTCHARGE_PATH = Helpers.fastcharge_path();
             final String BLN_PATH = Helpers.bln_path();
-            final String gov = preferences.getString(PREF_GOV, Helpers.readOneLine(GOVERNOR_PATH));
 
             if (preferences.getBoolean(CPU_SOB, false)) {
                 final String max = preferences.getString(
@@ -81,15 +80,14 @@ public class BootService extends Service implements Constants {
                 final String min = preferences.getString(
                         PREF_MIN_CPU, Helpers.readOneLine(MIN_FREQ_PATH));
                 final String io = preferences.getString(PREF_IO, Helpers.getIOScheduler());
+                final String gov = preferences.getString(PREF_GOV, Helpers.readOneLine(GOVERNOR_PATH));
 
                 for (int i = 0; i < Helpers.getNumOfCpus(); i++) {
                     sb.append("busybox echo ").append(max).append(" > ")
                             .append(MAX_FREQ_PATH.replace("cpu0", "cpu" + i)).append(";\n");
                     sb.append("busybox echo ").append(min).append(" > ")
                             .append(MIN_FREQ_PATH.replace("cpu0", "cpu" + i)).append(";\n");
-                    //sb.append("busybox echo ").append(gov).append(" > ")
-                    // .append(GOVERNOR_PATH.replace("cpu0", "cpu" + i)).append(";\n");
-                    sb.append("busybox echo performance > ")
+                    sb.append("busybox echo ").append(gov).append(" > ")
                             .append(GOVERNOR_PATH.replace("cpu0", "cpu" + i)).append(";\n");
                 }
                 if (new File(TEGRA_MAX_FREQ_PATH).exists()) {
@@ -346,12 +344,9 @@ public class BootService extends Service implements Constants {
                             .append(" > ").append(KSM_SLEEP_PATH).append(";\n");
                 }
             }
-            for (int i = 0; i < Helpers.getNumOfCpus(); i++) {
-                sb.append("busybox echo ").append(gov).append(" > ")
-                        .append(GOVERNOR_PATH.replace("cpu0", "cpu" + i)).append(";\n");
-            }
             if (preferences.getBoolean(GOV_SOB, false)) {
                 final String gn = preferences.getString(GOV_NAME, "");
+                final String gov = preferences.getString(PREF_GOV, Helpers.readOneLine(GOVERNOR_PATH));
                 if (gn.equals(gov)) {
                     final String gs = preferences.getString(GOV_SETTINGS, null);
                     if (gs != null) {
