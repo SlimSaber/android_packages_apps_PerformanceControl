@@ -80,10 +80,7 @@ public class CPUSettings extends Fragment
     private CpuInfoListAdapter mCpuInfoListAdapter;
     private List<String> mCpuInfoListData;
     private LayoutInflater mInflater;
-    private String supported[] = {
-            "ondemand", "lulzactive", "lulzactiveW",
-            "interactive", "hyper", "conservative",
-            "smartmax"};
+    private String supported[] = { GOV_ZZMOOVE };
 
     public class CpuInfoListAdapter extends ArrayAdapter<String> {
 
@@ -241,9 +238,7 @@ public class CPUSettings extends Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!getResources().getBoolean(R.bool.config_showPerformanceOnly)) {
-            inflater.inflate(R.menu.cpu_settings_menu, menu);
-        }
+        inflater.inflate(R.menu.cpu_settings_menu, menu);
     }
 
     @Override

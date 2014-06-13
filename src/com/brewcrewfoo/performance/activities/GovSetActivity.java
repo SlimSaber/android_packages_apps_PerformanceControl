@@ -69,7 +69,9 @@ public class GovSetActivity extends Activity implements Constants, AdapterView.O
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                final StringBuilder sb = new StringBuilder();
+                saveZzmooveProfileNumber();
+
+                /*final StringBuilder sb = new StringBuilder();
                 final StringBuilder sbs = new StringBuilder();
                 for (int i = 0; i < adapter.getCount(); i++) {
                     Prop p = adapter.getItem(i);
@@ -81,7 +83,7 @@ public class GovSetActivity extends Activity implements Constants, AdapterView.O
                     sbs.append("busybox echo ").append(p.getVal()).append(" > ").append(GOV_SETTINGS_PATH).append(curgov).append("/").append(p.getName()).append(";\n");
                 }
                 mPreferences.edit().putString(GOV_NAME, curgov).putString(GOV_SETTINGS, sb.toString()).commit();
-                Helpers.shExec(sbs, context, true);
+                Helpers.shExec(sbs, context, true);*/
             }
         });
 
@@ -89,7 +91,9 @@ public class GovSetActivity extends Activity implements Constants, AdapterView.O
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    final StringBuilder sb = new StringBuilder();
+                    saveZzmooveProfileNumber();
+
+                    /*final StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < adapter.getCount(); i++) {
                         Prop p = adapter.getItem(i);
                         if (i == 0) {
@@ -100,7 +104,7 @@ public class GovSetActivity extends Activity implements Constants, AdapterView.O
 
                         }
                     }
-                    mPreferences.edit().putString(GOV_NAME, curgov).putString(GOV_SETTINGS, sb.toString()).apply();
+                    mPreferences.edit().putString(GOV_NAME, curgov).putString(GOV_SETTINGS, sb.toString()).apply();*/
                 } else {
                     mPreferences.edit().remove(GOV_SETTINGS).remove(GOV_NAME).apply();
                 }
@@ -110,6 +114,19 @@ public class GovSetActivity extends Activity implements Constants, AdapterView.O
 
         new GetPropOperation().execute();
 
+    }
+
+    private void saveZzmooveProfileNumber() {
+        if (curgov.equalsIgnoreCase(GOV_ZZMOOVE)) {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                Prop p = adapter.getItem(i);
+                if (p.getName().equalsIgnoreCase(GOV_ZZMOVE_PROFILE_NUM)) {
+                    new CMDProcessor().su.runWaitFor("busybox echo " + p.getVal() + " > " + GOV_ZZMOVE_PROFILE_NUM_PATH);
+                    mPreferences.edit().putString(GOV_ZZMOVE_PROFILE_NUM, p.getVal()).commit();
+                    break;
+                }
+            }
+        }
     }
 
     private class GetPropOperation extends AsyncTask<String, Void, String> {

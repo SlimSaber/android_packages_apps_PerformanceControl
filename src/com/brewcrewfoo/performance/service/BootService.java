@@ -344,8 +344,21 @@ public class BootService extends Service implements Constants {
                             .append(" > ").append(KSM_SLEEP_PATH).append(";\n");
                 }
             }
+            sb.append(preferences.getString(PREF_SH, "# no custom shell command")).append(";\n");
+            Helpers.shExec(sb, context, true);
+
+            sb.setLength(0);
             if (preferences.getBoolean(GOV_SOB, false)) {
-                final String gn = preferences.getString(GOV_NAME, "");
+                if (new File(GOV_ZZMOVE_PROFILE_NUM_PATH).exists()) {
+                    final String gov = preferences.getString(PREF_GOV, Helpers.readOneLine(GOVERNOR_PATH));
+                    if (DEBUG) Log.i(TAG, "current gov: " + gov);
+                    if (gov.equalsIgnoreCase(GOV_ZZMOOVE)) {
+                        final String defaultProfileNumber = Helpers.readOneLine(GOV_ZZMOVE_PROFILE_NUM_PATH);
+                        final String profileNumber = preferences.getString(GOV_ZZMOVE_PROFILE_NUM, defaultProfileNumber);
+                        sb.append("echo " + profileNumber + " > " + GOV_ZZMOVE_PROFILE_NUM_PATH + ";\n");
+                    }
+                }
+                /*final String gn = preferences.getString(GOV_NAME, "");
                 final String gov = preferences.getString(PREF_GOV, Helpers.readOneLine(GOVERNOR_PATH));
                 if (gn.equals(gov)) {
                     final String gs = preferences.getString(GOV_SETTINGS, null);
@@ -358,10 +371,11 @@ public class BootService extends Service implements Constants {
                                     .append(pn[0]).append(";\n");
                         }
                     }
-                }
+                }*/
             }
             sb.append(preferences.getString(PREF_SH, "# no custom shell command")).append(";\n");
             Helpers.shExec(sb, context, true);
+
             return null;
         }
 
