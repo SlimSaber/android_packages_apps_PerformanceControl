@@ -238,7 +238,12 @@ public class CPUSettings extends Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.cpu_settings_menu, menu);
+        for (String aSupported : supported) {
+           if (aSupported.equals(Helpers.readOneLine(GOVERNOR_PATH))) {
+               inflater.inflate(R.menu.cpu_settings_menu, menu);
+               break;
+           }
+        }
     }
 
     @Override
