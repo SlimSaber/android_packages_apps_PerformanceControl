@@ -382,9 +382,11 @@ public class Advanced extends PreferenceFragment
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, String key) {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         if (key.equals(PREF_LOGCAT)) {
-            boolean disableLogcat = mLogcat.isChecked();
-            editor.putBoolean(PREF_LOGCAT, disableLogcat).apply();
-            if (DEBUG) Log.i(TAG, "Store: disableLogcat is " + (disableLogcat ? "true" : "false"));
+            if (mLogcat != null) {
+                boolean disableLogcat = mLogcat.isChecked();
+                editor.putBoolean(PREF_LOGCAT, disableLogcat).apply();
+                if (DEBUG) Log.i(TAG, "Store: disableLogcat is " + (disableLogcat ? "true" : "false"));
+            }
         } else if (key.equals(PREF_READ_AHEAD)) {
             final String values = mReadAhead.getValue();
             if (!values.equals(Helpers.readOneLine(READ_AHEAD_PATH))) {
