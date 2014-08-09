@@ -70,6 +70,11 @@ public class BootService extends Service implements Constants {
         protected Void doInBackground(Void... args) {
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
+
+            // clear saved offsets - they make no sense after a reboot
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(PREF_OFFSETS, "").commit();
+
             final StringBuilder sb = new StringBuilder();
             final String FASTCHARGE_PATH = Helpers.fastcharge_path();
             final String BLN_PATH = Helpers.bln_path();
