@@ -249,13 +249,9 @@ public class CPUSettings extends Fragment
                 startActivity(intent);
                 break;
             case R.id.gov_settings:
-                for (String aSupported : supported) {
-                    if (aSupported.equals(Helpers.readOneLine(GOVERNOR_PATH))) {
-                        intent = new Intent(context, GovSetActivity.class);
-                        startActivity(intent);
-                        break;
-                    }
-                }
+                intent = new Intent(context, GovSetActivity.class);
+                startActivity(intent);
+                break;
         }
         return true;
     }
