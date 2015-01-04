@@ -149,15 +149,18 @@ public class CPUSettings extends Fragment
         String mCurrentIo = Helpers.getIOScheduler();
         String mCurMaxSpeed;
         String mCurMinSpeed;
+
         if (new File(DYN_MAX_FREQ_PATH).exists()) {
             mCurMaxSpeed = Helpers.readOneLine(DYN_MAX_FREQ_PATH);
         } else {
-            mCurMaxSpeed = Helpers.readOneLine(MAX_FREQ_PATH);
+            mCurMaxSpeed = mPreferences.getString(
+                        PREF_MAX_CPU, Helpers.readOneLine(MAX_FREQ_PATH));
         }
         if (new File(DYN_MIN_FREQ_PATH).exists()) {
             mCurMinSpeed = Helpers.readOneLine(DYN_MIN_FREQ_PATH);
         } else {
-            mCurMinSpeed = Helpers.readOneLine(MIN_FREQ_PATH);
+            mCurMinSpeed = mPreferences.getString(
+                        PREF_MIN_CPU, Helpers.readOneLine(MIN_FREQ_PATH));
         }
 
         if (mIsTegra3) {
